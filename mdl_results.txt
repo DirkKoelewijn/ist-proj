@@ -1,0 +1,1129 @@
+"C:\Users\Dirk Koelewijn\PycharmProjects\ist-proj\venv\Scripts\python.exe" "C:/Users/Dirk Koelewijn/PycharmProjects/ist-proj/MLDP.py"
+-- K-FOLD TEST --
+data/seeds.csv - k: 10
+block size: 21
+
+- K = 0 -
+Leafs: 9
+Performance: 95.24 %
+Predicted  1  2  3
+Actual
+1          7  1  0
+2          0  4  0
+3          0  0  9
+
+- K = 1 -
+Leafs: 8
+Performance: 85.71 %
+Predicted  1  2  3
+Actual
+1          4  1  1
+2          1  9  0
+3          0  0  5
+
+- K = 2 -
+Leafs: 6
+Performance: 85.71 %
+Predicted  1  2   3
+Actual
+1          4  1   1
+2          0  4   0
+3          1  0  10
+
+- K = 3 -
+Leafs: 7
+Performance: 85.71 %
+Predicted  1  2  3
+Actual
+1          8  0  3
+2          0  6  0
+3          0  0  4
+
+- K = 4 -
+Leafs: 7
+Performance: 85.71 %
+Predicted  1  2  3
+Actual
+1          5  0  2
+2          1  8  0
+3          0  0  5
+
+- K = 5 -
+Leafs: 8
+Performance: 95.24 %
+Predicted  1  2  3
+Actual
+1          8  0  0
+2          1  7  0
+3          0  0  5
+
+- K = 6 -
+Leafs: 7
+Performance: 90.48 %
+Predicted  1  2  3
+Actual
+1          6  0  2
+2          0  4  0
+3          0  0  9
+
+- K = 7 -
+Leafs: 8
+Performance: 80.95 %
+Predicted  1  2  3
+Actual
+1          5  0  3
+2          0  8  0
+3          1  0  4
+
+- K = 8 -
+Leafs: 8
+Performance: 90.48 %
+Predicted  1  2   3
+Actual
+1          1  0   1
+2          1  8   0
+3          0  0  10
+
+- K = 9 -
+Leafs: 8
+Performance: 90.48 %
+Predicted  1  2  3
+Actual
+1          5  0  1
+2          0  8  0
+3          1  0  6
+
+- Overall performance -
+data/seeds.csv - k: 10
+block size: 21
+Leafs: 7.6
+Performance: 88.57 %
+Predicted   1   2   3
+Actual
+1          53   3  14
+2           4  66   0
+3           3   0  67
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+-- K-FOLD TEST --
+data/banknotes.csv - k: 10
+block size: 138
+
+- K = 0 -
+Leafs: 12
+Performance: 97.83 %
+Predicted   0   1
+Actual
+0          73   1
+1           2  62
+
+- K = 1 -
+Leafs: 11
+Performance: 98.55 %
+Predicted   0   1
+Actual
+0          81   1
+1           1  55
+
+- K = 2 -
+Leafs: 14
+Performance: 99.28 %
+Predicted   0   1
+Actual
+0          73   1
+1           0  64
+
+- K = 3 -
+Leafs: 14
+Performance: 100.0 %
+Predicted   0   1
+Actual
+0          86   0
+1           0  52
+
+- K = 4 -
+Leafs: 13
+Performance: 98.55 %
+Predicted   0   1
+Actual
+0          69   2
+1           0  67
+
+- K = 5 -
+Leafs: 15
+Performance: 98.55 %
+Predicted   0   1
+Actual
+0          70   1
+1           1  66
+
+- K = 6 -
+Leafs: 14
+Performance: 97.83 %
+Predicted   0   1
+Actual
+0          79   1
+1           2  56
+
+- K = 7 -
+Leafs: 13
+Performance: 99.28 %
+Predicted   0   1
+Actual
+0          72   1
+1           0  65
+
+- K = 8 -
+Leafs: 17
+Performance: 98.55 %
+Predicted   0   1
+Actual
+0          79   1
+1           1  57
+
+- K = 9 -
+Leafs: 13
+Performance: 98.46 %
+Predicted   0   1
+Actual
+0          70   1
+1           1  58
+
+- Overall performance -
+data/banknotes.csv - k: 10
+block size: 138
+Leafs: 13.6
+Performance: 98.69 %
+Predicted    0    1
+Actual
+0          752   10
+1            8  602
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+-- K-FOLD TEST --
+data/breast-cancer.csv - k: 10
+block size: 70
+
+- K = 0 -
+Leafs: 6
+Performance: 95.71 %
+Predicted   2   4
+Actual
+2          39   2
+4           1  28
+
+- K = 1 -
+Leafs: 6
+Performance: 91.43 %
+Predicted   2   4
+Actual
+2          48   2
+4           4  16
+
+- K = 2 -
+Leafs: 7
+Performance: 90.0 %
+Predicted   2   4
+Actual
+2          41   6
+4           1  22
+
+- K = 3 -
+Leafs: 6
+Performance: 95.71 %
+Predicted   2   4
+Actual
+2          41   3
+4           0  26
+
+- K = 4 -
+Leafs: 5
+Performance: 94.29 %
+Predicted   2   4
+Actual
+2          41   3
+4           1  25
+
+- K = 5 -
+Leafs: 5
+Performance: 94.29 %
+Predicted   2   4
+Actual
+2          44   2
+4           2  22
+
+- K = 6 -
+Leafs: 6
+Performance: 95.71 %
+Predicted   2   4
+Actual
+2          48   2
+4           1  19
+
+- K = 7 -
+Leafs: 5
+Performance: 92.86 %
+Predicted   2   4
+Actual
+2          45   4
+4           1  20
+
+- K = 8 -
+Leafs: 6
+Performance: 94.29 %
+Predicted   2   4
+Actual
+2          46   3
+4           1  20
+
+- K = 9 -
+Leafs: 6
+Performance: 92.75 %
+Predicted   2   4
+Actual
+2          35   3
+4           2  29
+
+- Overall performance -
+data/breast-cancer.csv - k: 10
+block size: 70
+Leafs: 5.8
+Performance: 93.7 %
+Predicted    2    4
+Actual
+2          428   30
+4           14  227
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+-- K-FOLD TEST --
+data/diabetes.csv - k: 10
+block size: 77
+
+- K = 0 -
+Leafs: 5
+Performance: 66.23 %
+Predicted   0   1
+Actual
+0          34  15
+1          11  17
+
+- K = 1 -
+Leafs: 5
+Performance: 71.43 %
+Predicted   0   1
+Actual
+0          43   5
+1          17  12
+
+- K = 2 -
+Leafs: 6
+Performance: 77.92 %
+Predicted   0   1
+Actual
+0          43  13
+1           4  17
+
+- K = 3 -
+Leafs: 6
+Performance: 80.52 %
+Predicted   0   1
+Actual
+0          41   7
+1           8  21
+
+- K = 4 -
+Leafs: 6
+Performance: 80.52 %
+Predicted   0   1
+Actual
+0          42   4
+1          11  20
+
+- K = 5 -
+Leafs: 5
+Performance: 71.43 %
+Predicted   0   1
+Actual
+0          45   4
+1          18  10
+
+- K = 6 -
+Leafs: 5
+Performance: 79.22 %
+Predicted   0   1
+Actual
+0          49   5
+1          11  12
+
+- K = 7 -
+Leafs: 6
+Performance: 80.52 %
+Predicted   0   1
+Actual
+0          47   7
+1           8  15
+
+- K = 8 -
+Leafs: 5
+Performance: 76.62 %
+Predicted   0   1
+Actual
+0          44   5
+1          13  15
+
+- K = 9 -
+Leafs: 5
+Performance: 70.67 %
+Predicted   0   1
+Actual
+0          42   5
+1          17  11
+
+- Overall performance -
+data/diabetes.csv - k: 10
+block size: 77
+Leafs: 5.4
+Performance: 75.51 %
+Predicted    0    1
+Actual
+0          430   70
+1          118  150
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+-- K-FOLD TEST --
+data/heart_disease.csv - k: 10
+block size: 30
+
+- K = 0 -
+Leafs: 29
+Performance: 46.67 %
+Predicted   0  1  2  3
+Actual
+0          13  1  2  0
+1           3  0  2  3
+2           0  1  0  2
+3           1  0  0  1
+4           0  0  0  1
+
+- K = 1 -
+Leafs: 31
+Performance: 56.67 %
+Predicted   0  1  2  3
+Actual
+0          13  2  0  0
+1           2  0  1  1
+2           1  0  3  0
+3           2  1  2  1
+4           1  0  0  0
+
+- K = 2 -
+Leafs: 32
+Performance: 50.0 %
+Predicted   0  1  2  3
+Actual
+0          11  1  0  2
+1           3  1  4  1
+2           1  0  3  0
+3           0  1  2  0
+
+- K = 3 -
+Leafs: 30
+Performance: 56.67 %
+Predicted   0  1  2  3  4
+Actual
+0          13  1  0  0  1
+1           1  1  0  4  0
+2           2  0  1  2  0
+3           0  0  0  1  1
+4           0  1  0  0  1
+
+- K = 4 -
+Leafs: 27
+Performance: 56.67 %
+Predicted   0  1  2  3  4
+Actual
+0          15  1  0  4  0
+1           2  0  0  1  0
+2           1  0  1  0  1
+3           0  1  0  1  1
+4           0  0  0  1  0
+
+- K = 5 -
+Leafs: 29
+Performance: 63.33 %
+Predicted   0  1  2  3
+Actual
+0          16  3  1  0
+1           2  2  0  1
+2           1  0  1  0
+3           0  1  0  0
+4           0  1  0  1
+
+- K = 6 -
+Leafs: 27
+Performance: 40.0 %
+Predicted  0  1  2  3
+Actual
+0          9  4  0  0
+1          4  1  1  0
+2          0  1  2  1
+3          0  3  3  0
+4          0  0  1  0
+
+- K = 7 -
+Leafs: 30
+Performance: 60.0 %
+Predicted   0  1  2  3
+Actual
+0          15  1  0  2
+1           3  0  0  0
+2           0  0  2  0
+3           1  0  3  1
+4           1  1  0  0
+
+- K = 8 -
+Leafs: 31
+Performance: 46.67 %
+Predicted   0  1  3
+Actual
+0          12  2  1
+1           4  0  1
+2           0  1  2
+3           1  2  2
+4           0  2  0
+
+- K = 9 -
+Leafs: 34
+Performance: 51.85 %
+Predicted   0  1  2  3  4
+Actual
+0          12  1  0  1  0
+1           4  0  0  1  0
+2           0  2  2  0  1
+3           1  1  0  0  0
+4           0  0  1  0  0
+
+- Overall performance -
+data/heart_disease.csv - k: 10
+block size: 30
+Leafs: 30.0
+Performance: 52.85 %
+Predicted    0   1   2   3  4
+Actual
+0          129  17   3  10  1
+1           28   5   8  13  0
+2            6   5  15   7  2
+3            6  10  10   7  2
+4            2   5   2   3  1
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+data/heart_disease.csv, 30.0, 0.5285185185185184
+-- K-FOLD TEST --
+data/iris.csv - k: 10
+block size: 15
+
+- K = 0 -
+Leafs: 4
+Performance: 86.67 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                7                0               0
+Iris-versicolor            0                1               2
+Iris-virginica             0                0               5
+
+- K = 1 -
+Leafs: 3
+Performance: 100.0 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                8                0               0
+Iris-versicolor            0                5               0
+Iris-virginica             0                0               2
+
+- K = 2 -
+Leafs: 5
+Performance: 86.67 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                1                0               0
+Iris-versicolor            0                6               2
+Iris-virginica             0                0               6
+
+- K = 3 -
+Leafs: 6
+Performance: 100.0 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                8                0               0
+Iris-versicolor            0                4               0
+Iris-virginica             0                0               3
+
+- K = 4 -
+Leafs: 10
+Performance: 86.67 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                6                0               0
+Iris-versicolor            0                6               1
+Iris-virginica             0                1               1
+
+- K = 5 -
+Leafs: 4
+Performance: 86.67 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                3                0               0
+Iris-versicolor            0                0               1
+Iris-virginica             0                1              10
+
+- K = 6 -
+Leafs: 6
+Performance: 86.67 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                5                0               0
+Iris-versicolor            1                2               0
+Iris-virginica             0                1               6
+
+- K = 7 -
+Leafs: 5
+Performance: 93.33 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                4                1               0
+Iris-versicolor            0                7               0
+Iris-virginica             0                0               3
+
+- K = 8 -
+Leafs: 5
+Performance: 80.0 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                3                1               0
+Iris-versicolor            0                5               2
+Iris-virginica             0                0               4
+
+- K = 9 -
+Leafs: 5
+Performance: 86.67 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa                3                0               0
+Iris-versicolor            0                3               2
+Iris-virginica             0                0               7
+
+- Overall performance -
+data/iris.csv - k: 10
+block size: 15
+Leafs: 5.3
+Performance: 89.33 %
+Predicted        Iris-setosa  Iris-versicolor  Iris-virginica
+Actual
+Iris-setosa               48                2               0
+Iris-versicolor            1               39              10
+Iris-virginica             0                3              47
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+data/heart_disease.csv, 30.0, 0.5285185185185184
+data/iris.csv, 5.3, 0.8933333333333335
+-- K-FOLD TEST --
+data/tic-tac-toe.csv - k: 10
+block size: 96
+
+- K = 0 -
+Leafs: 22
+Performance: 91.67 %
+Predicted  negative  positive
+Actual
+negative         27         2
+positive          6        61
+
+- K = 1 -
+Leafs: 20
+Performance: 96.88 %
+Predicted  negative  positive
+Actual
+negative         30         2
+positive          1        63
+
+- K = 2 -
+Leafs: 30
+Performance: 93.75 %
+Predicted  negative  positive
+Actual
+negative         28         5
+positive          1        62
+
+- K = 3 -
+Leafs: 18
+Performance: 91.67 %
+Predicted  negative  positive
+Actual
+negative         29         5
+positive          3        59
+
+- K = 4 -
+Leafs: 24
+Performance: 90.62 %
+Predicted  negative  positive
+Actual
+negative         31         8
+positive          1        56
+
+- K = 5 -
+Leafs: 18
+Performance: 92.71 %
+Predicted  negative  positive
+Actual
+negative         26         5
+positive          2        63
+
+- K = 6 -
+Leafs: 23
+Performance: 93.75 %
+Predicted  negative  positive
+Actual
+negative         35         4
+positive          2        55
+
+- K = 7 -
+Leafs: 21
+Performance: 89.58 %
+Predicted  negative  positive
+Actual
+negative         31         4
+positive          6        55
+
+- K = 8 -
+Leafs: 21
+Performance: 86.46 %
+Predicted  negative  positive
+Actual
+negative         25         6
+positive          7        58
+
+- K = 9 -
+Leafs: 21
+Performance: 92.55 %
+Predicted  negative  positive
+Actual
+negative         26         3
+positive          4        61
+
+- Overall performance -
+data/tic-tac-toe.csv - k: 10
+block size: 96
+Leafs: 21.8
+Performance: 91.96 %
+Predicted  negative  positive
+Actual
+negative        288        44
+positive         33       593
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+data/heart_disease.csv, 30.0, 0.5285185185185184
+data/iris.csv, 5.3, 0.8933333333333335
+data/tic-tac-toe.csv, 21.8, 0.9196365248226949
+-- K-FOLD TEST --
+data/glass.csv - k: 10
+block size: 22
+
+- K = 0 -
+Leafs: 10
+Performance: 90.91 %
+Predicted  1  2  5  6  7
+Actual
+1          8  0  0  0  0
+2          0  8  0  0  0
+3          0  0  0  1  0
+5          0  0  2  1  0
+7          0  0  0  0  2
+
+- K = 1 -
+Leafs: 10
+Performance: 86.36 %
+Predicted  1  2  3  5  7
+Actual
+1          5  0  0  0  0
+2          1  7  1  0  0
+3          0  1  0  0  0
+5          0  0  0  2  0
+7          0  0  0  0  5
+
+- K = 2 -
+Leafs: 8
+Performance: 100.0 %
+Predicted  1  2  3  5  6  7
+Actual
+1          9  0  0  0  0  0
+2          0  4  0  0  0  0
+3          0  0  1  0  0  0
+5          0  0  0  4  0  0
+6          0  0  0  0  2  0
+7          0  0  0  0  0  2
+
+- K = 3 -
+Leafs: 9
+Performance: 100.0 %
+Predicted  1  2  3  5  6  7
+Actual
+1          5  0  0  0  0  0
+2          0  9  0  0  0  0
+3          0  0  2  0  0  0
+5          0  0  0  2  0  0
+6          0  0  0  0  1  0
+7          0  0  0  0  0  3
+
+- K = 4 -
+Leafs: 10
+Performance: 90.91 %
+Predicted  1  2  3  6  7
+Actual
+1          7  2  0  0  0
+2          0  6  0  0  0
+3          0  0  2  0  0
+6          0  0  0  1  0
+7          0  0  0  0  4
+
+- K = 5 -
+Leafs: 10
+Performance: 95.45 %
+Predicted  1  2  3  5  6  7
+Actual
+1          7  0  0  0  0  0
+2          0  7  0  0  0  0
+3          0  1  1  0  0  0
+5          0  0  0  1  0  0
+6          0  0  0  0  2  0
+7          0  0  0  0  0  3
+
+- K = 6 -
+Leafs: 7
+Performance: 90.91 %
+Predicted  1  2  3  7
+Actual
+1          5  0  0  0
+2          1  7  0  0
+3          0  0  4  0
+6          0  0  0  1
+7          0  0  0  4
+
+- K = 7 -
+Leafs: 9
+Performance: 86.36 %
+Predicted  1  2  3  7
+Actual
+1          9  0  0  0
+2          0  7  2  0
+3          0  1  1  0
+7          0  0  0  2
+
+- K = 8 -
+Leafs: 9
+Performance: 90.91 %
+Predicted  1  2  3  5  6  7
+Actual
+1          7  1  0  0  0  0
+2          0  8  1  0  0  0
+5          0  0  0  1  0  0
+6          0  0  0  0  1  0
+7          0  0  0  0  0  3
+
+- K = 9 -
+Leafs: 7
+Performance: 100.0 %
+Predicted  1  2  3  6  7
+Actual
+1          5  0  0  0  0
+2          0  7  0  0  0
+3          0  0  2  0  0
+6          0  0  0  1  0
+7          0  0  0  0  1
+
+- Overall performance -
+data/glass.csv - k: 10
+block size: 22
+Leafs: 8.9
+Performance: 93.18 %
+Predicted   1   2   3   5  6   7
+Actual
+1          67   3   0   0  0   0
+2           2  70   4   0  0   0
+3           0   3  13   0  1   0
+5           0   0   0  12  1   0
+6           0   0   0   0  8   1
+7           0   0   0   0  0  29
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+data/heart_disease.csv, 30.0, 0.5285185185185184
+data/iris.csv, 5.3, 0.8933333333333335
+data/tic-tac-toe.csv, 21.8, 0.9196365248226949
+data/glass.csv, 8.9, 0.9318181818181819
+-- K-FOLD TEST --
+data/wine.csv - k: 10
+block size: 18
+
+- K = 0 -
+Leafs: 5
+Performance: 94.44 %
+Predicted  1  2  3
+Actual
+1          4  0  0
+2          0  8  1
+3          0  0  5
+
+- K = 1 -
+Leafs: 7
+Performance: 88.89 %
+Predicted  1  2  3
+Actual
+1          8  1  0
+2          0  2  0
+3          0  1  6
+
+- K = 2 -
+Leafs: 6
+Performance: 88.89 %
+Predicted  1  2  3
+Actual
+1          5  0  0
+2          1  7  1
+3          0  0  4
+
+- K = 3 -
+Leafs: 7
+Performance: 94.44 %
+Predicted  1   2  3
+Actual
+1          4   0  0
+2          0  10  1
+3          0   0  3
+
+- K = 4 -
+Leafs: 6
+Performance: 94.44 %
+Predicted  1  2  3
+Actual
+1          7  0  0
+2          0  6  0
+3          0  1  4
+
+- K = 5 -
+Leafs: 7
+Performance: 88.89 %
+Predicted  1  2  3
+Actual
+1          6  0  1
+2          1  5  0
+3          0  0  5
+
+- K = 6 -
+Leafs: 5
+Performance: 88.89 %
+Predicted  1  2  3
+Actual
+1          4  0  0
+2          2  7  0
+3          0  0  5
+
+- K = 7 -
+Leafs: 7
+Performance: 77.78 %
+Predicted  1  2  3
+Actual
+1          3  1  0
+2          0  6  0
+3          0  3  5
+
+- K = 8 -
+Leafs: 6
+Performance: 100.0 %
+Predicted   1  2  3
+Actual
+1          10  0  0
+2           0  7  0
+3           0  0  1
+
+- K = 9 -
+Leafs: 8
+Performance: 93.75 %
+Predicted  1  2  3
+Actual
+1          5  0  0
+2          1  5  0
+3          0  0  5
+
+- Overall performance -
+data/wine.csv - k: 10
+block size: 18
+Leafs: 6.4
+Performance: 91.04 %
+Predicted   1   2   3
+Actual
+1          56   2   1
+2           5  63   3
+3           0   5  43
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+data/heart_disease.csv, 30.0, 0.5285185185185184
+data/iris.csv, 5.3, 0.8933333333333335
+data/tic-tac-toe.csv, 21.8, 0.9196365248226949
+data/glass.csv, 8.9, 0.9318181818181819
+data/wine.csv, 6.4, 0.9104166666666668
+-- K-FOLD TEST --
+data/statlog.csv - k: 10
+block size: 27
+
+- K = 0 -
+Leafs: 5
+Performance: 74.07 %
+Predicted  1   2
+Actual
+1          8   4
+2          3  12
+
+- K = 1 -
+Leafs: 6
+Performance: 88.89 %
+Predicted   1  2
+Actual
+1          16  0
+2           3  8
+
+- K = 2 -
+Leafs: 5
+Performance: 88.89 %
+Predicted   1   2
+Actual
+1          14   3
+2           0  10
+
+- K = 3 -
+Leafs: 6
+Performance: 81.48 %
+Predicted   1  2
+Actual
+1          14  3
+2           2  8
+
+- K = 4 -
+Leafs: 5
+Performance: 88.89 %
+Predicted   1  2
+Actual
+1          16  2
+2           1  8
+
+- K = 5 -
+Leafs: 6
+Performance: 85.19 %
+Predicted   1  2
+Actual
+1          14  1
+2           3  9
+
+- K = 6 -
+Leafs: 5
+Performance: 81.48 %
+Predicted   1  2
+Actual
+1          13  0
+2           5  9
+
+- K = 7 -
+Leafs: 6
+Performance: 85.19 %
+Predicted   1   2
+Actual
+1          12   1
+2           3  11
+
+- K = 8 -
+Leafs: 5
+Performance: 66.67 %
+Predicted   1  2
+Actual
+1          12  2
+2           7  6
+
+- K = 9 -
+Leafs: 6
+Performance: 74.07 %
+Predicted   1  2
+Actual
+1          13  2
+2           5  7
+
+- Overall performance -
+data/statlog.csv - k: 10
+block size: 27
+Leafs: 5.5
+Performance: 81.48 %
+Predicted    1   2
+Actual
+1          132  18
+2           32  88
+
+
+--- RESULTS SO FAR ---
+file, leafs, performance
+data/seeds.csv, 7.6, 0.8857142857142858
+data/banknotes.csv, 13.6, 0.9868673355629879
+data/breast-cancer.csv, 5.8, 0.9370393374741202
+data/diabetes.csv, 5.4, 0.755082251082251
+data/heart_disease.csv, 30.0, 0.5285185185185184
+data/iris.csv, 5.3, 0.8933333333333335
+data/tic-tac-toe.csv, 21.8, 0.9196365248226949
+data/glass.csv, 8.9, 0.9318181818181819
+data/wine.csv, 6.4, 0.9104166666666668
+data/statlog.csv, 5.5, 0.8148148148148149
+
+Process finished with exit code 0

@@ -55,7 +55,7 @@ def k_fold_test(csv: str, k: int = 10):
     print_cm(overall_actual, overall_predicted)
     print()
 
-    return leafs_, performance
+    return leafs_, performance_
 
 
 def print_cm(actual, predicted):
