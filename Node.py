@@ -1,3 +1,4 @@
+import numbers
 import pprint
 
 
@@ -6,17 +7,18 @@ class Node:
     Class to model an decision tree nodes
     """
 
-    def __init__(self, attribute=None, cut_value=None, value=None) -> None:
+    def __init__(self, attribute=None, split_value=None, value=None) -> None:
         """
         Initializes a node (or leaf)
 
         :param attribute: The attribute that this node splits on (node only)
-        :param cut_value: The cut value for the attribute (nodes with real-value attributes only)
-        :param value: The class (leafs), a dict mapping from attribute value to nodes (nodes with discrete attributes)
-        or a tuple of (node < cut_value, node >= cut_value)
+        :param split_value: the real-value or category to split on
+        :param value:
+            Leaf: class
+            Node: (sub-node if true or < split_value, sub-node if false or >= split_value)
         """
         self.attribute = attribute
-        self.cut_value = cut_value
+        self.split_value = split_value
         self.value = value
 
     def is_leaf(self):
@@ -29,13 +31,13 @@ class Node:
         """
         Returns whether the node has a discrete attribute
         """
-        return not self.is_leaf() and self.cut_value is None
+        return not self.is_leaf() and isinstance(self.split_value, str)
 
     def has_continuous_attribute(self):
         """
         Returns whether the node has a continuous attribute
         """
-        return not self.is_leaf() and self.cut_value is not None
+        return not self.is_leaf() and isinstance(self.split_value, numbers.Number)
 
     def is_decision_node(self):
         """
@@ -51,8 +53,6 @@ class Node:
         """
         if self.is_leaf():
             return []
-        if self.has_discrete_attribute():
-            return self.value.values()
         else:
             return self.value
 
@@ -83,9 +83,12 @@ class Node:
         assert not self.is_leaf(), 'Cannot get item from leaf'
 
         if self.has_discrete_attribute():
-            return self.value[item]
+            if item == self.split_value:
+                return self.value[0]
+            else:
+                return self.value[1]
         else:
-            if item < self.cut_value:
+            if item < self.split_value:
                 return self.value[0]
             else:
                 return self.value[1]
@@ -98,14 +101,15 @@ class Node:
             return self.value
 
         if self.has_discrete_attribute():
-            d = self.value
+            return {
+                self.attribute + '[' + self.split_value + ']': self.value[0].__repr__(),
+                self.attribute + '[not ' + self.split_value + ']': self.value[0].__repr__(),
+            }
         else:
-            d = {'<' + str(self.cut_value): self.value[0], '>=' + str(self.cut_value): self.value[1]}
-
-        res = {}
-        for k, v in d.items():
-            res[self.attribute + ' ' + k] = v.__repr__()
-        return res
+            return {
+                self.attribute + '[<' + str(self.split_value) + ']': self.value[0].__repr__(),
+                self.attribute + '[>=' + str(self.split_value) + ']': self.value[0].__repr__(),
+            }
 
     def __str__(self):
         """
