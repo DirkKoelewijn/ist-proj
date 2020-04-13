@@ -45,6 +45,16 @@ class MLDPTree:
             if self.remaining is None:
                 self.remaining = dict([(a, list(set(data[a]))) for a in data.columns if a != class_attr])
 
+                # Check if values should be minimized
+                for k, v in self.remaining.items():
+                    if len(v) < 16:
+                        continue
+
+                    splits = math.floor(math.sqrt(len(v)))
+                    block_len = len(v) / (splits + 1)
+                    indices = [round((i + 1) * block_len) for i in range(splits)]
+                    self.remaining[k] = [v[i] for i in indices]
+
     def is_leaf(self):
         """
         Returns whether the node is a leaf
@@ -123,7 +133,7 @@ class MLDPTree:
         """
         Calculates the combinations n over k
         """
-        return math.factorial(n) / (math.factorial(n - k) * math.factorial(k))
+        return math.factorial(n) // (math.factorial(n - k) * math.factorial(k))
 
     def cost(self):
         """
@@ -211,6 +221,12 @@ class MLDPTree:
                 tree[(a, v)] = n.value
                 score[(a, v)] = n.cost()
 
+            if len(score) == 0:
+                self.value = self.data[self.class_attr].mode()[0]
+                self.split_value = None
+                self.attribute = None
+                return self
+
             a, v = sorted(score.items(), key=lambda item: item[1])[0][0]
             self.attribute = a
             self.split_value = v
@@ -287,9 +303,7 @@ class MLDPTree:
                 correct += 1
             res.append(x)
 
-        print(round(correct / float(len(df)) * 100, 2), '%')
-
-        return Series([self.predict(s) for i, s in df.iterrows()])
+        return Series(dict([(i, self.predict(s)) for i, s in df.iterrows()]))
 
     def __copy__(self):
         return MLDPTree(
