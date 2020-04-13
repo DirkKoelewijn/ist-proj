@@ -77,9 +77,14 @@ if __name__ == '__main__':
 
     res = {}
 
+    # for csv in to_test:
+    #     res[csv] = k_fold_test(csv, 10)
+    #     print('\n--- RESULTS SO FAR ---')
+    #     print('file', 'leafs', 'performance', sep=', ')
+    #     for k, (l, p) in res.items():
+    #         print(k, l, p, sep=', ')
+
     for csv in to_test:
-        res[csv] = k_fold_test(csv, 10)
-        print('\n--- RESULTS SO FAR ---')
-        print('file', 'leafs', 'performance', sep=', ')
-        for k, (l, p) in res.items():
-            print(k, l, p, sep=', ')
+        df = pandas.read_csv(csv)
+        model = MLDPTree.train(df)
+        print(csv, model.leaf_count())
