@@ -1,208 +1,249 @@
-import pandas as pd
-from math import log2, factorial, floor
+import copy
+import numbers
+import pprint
+
+import math
+from pandas import Series
+
+SINGLE_OBSERVATION_PENALTY = 1
 
 
 class MDLPTree:
     """
-    Class to model and construct MDLP Trees
+    Class to model an decision tree nodes
     """
-    def __init__(self,
-                 data: pd.DataFrame,
-                 attr: str = None,
-                 values: dict = None,
-                 attributes: dict = None,
-                 classes: list = None,
-                 class_attr: str = 'Class') -> None:
-        self._data = data
-        self._attr = attr
-        self._values = values
-        self._class_attr = class_attr
-        self._attributes = attributes
-        self._classes = classes
 
-        if self._attr is None:
-            self._attr = data[class_attr].mode()[0]
+    def __init__(self, attribute=None, split_value=None, value=None, data=None, remaining=None, classes=None,
+                 class_attr=None) -> None:
+        """
+        Initializes a node (or leaf)
 
-        if self._attributes is None:
-            self._attributes = dict([(a, list(set(data[a]))) for a in list(data.columns) if a != class_attr])
+        :param attribute: The attribute that this node splits on (node only)
+        :param split_value: the real-value or category to split on
+        :param value:
+            Leaf: class
+            Node: (sub-node if true or < split_value, sub-node if false or >= split_value)
+        """
 
-        if self._classes is None:
-            self._classes = list(set(data[class_attr]))
+        self.attribute = attribute
+        self.split_value = split_value
+        self.value = value
+        self.parent = None
+        self.data = data
+        self.remaining = remaining
+        self.classes = classes
+        self.class_attr = class_attr
 
-    def __repr__(self):
-        return str(self)
+        if not self.is_leaf():
+            for x in self.value:
+                x.parent = self
 
-    def __str__(self):
-        if self._values is None:
-            return self._attr
-        else:
-            _res = '{'
-            for _k, _v in self._values.items():
-                _res += self._attr + '[' + _k + '] : '
-                _lines = _v.__repr__()
-                for _line in _lines.split('\n'):
-                    if len(_line) > 0:
-                        _res += _line + ', '
-            return _res[:-2] + '}'
+        if self.value is None and data is not None and class_attr is not None:
+            self.value = data[class_attr].mode()[0]
+            if self.classes is None:
+                self.classes = list(set(data[class_attr]))
+            if self.remaining is None:
+                self.remaining = dict([(a, list(set(data[a]))) for a in data.columns if a != class_attr])
 
-    def __copy__(self):
-        return MDLPTree(
-            self._data.copy(),
-            self._attr,
-            self._values.copy(),
-            self._attributes.copy(),
-            self._classes.copy(),
-            self._class_attr
-        )
+                # Check if values should be minimized
+                for k, v in self.remaining.items():
+                    if len(v) < 16:
+                        continue
 
-    def __getitem__(self, item):
-        return self._values[item]
+                    splits = math.floor(math.sqrt(len(v)))
+                    block_len = len(v) / (splits + 1)
+                    indices = [round((i + 1) * block_len) for i in range(splits)]
+                    self.remaining[k] = [v[i] for i in indices]
 
     def is_leaf(self):
         """
-        Returns whether this node is a leaf
-        :return:
+        Returns whether the node is a leaf
         """
-        return self._values is None
+        return self.attribute is None
+
+    def has_discrete_attribute(self):
+        """
+        Returns whether the node has a discrete attribute
+        """
+        return not self.is_leaf() and isinstance(self.split_value, str)
+
+    def has_continuous_attribute(self):
+        """
+        Returns whether the node has a continuous attribute
+        """
+        return not self.is_leaf() and isinstance(self.split_value, numbers.Number)
 
     def is_decision_node(self):
         """
-        Returns whether this node is a decision node
+        Returns whether the node is a decision node (has only leafs as sub-nodes)
         """
-        return not self.is_leaf() and all([dt.is_leaf() for dt in self._values.values()])
+        if self.is_leaf():
+            return False
+        return all([x.is_leaf() for x in self.sub_nodes()])
+
+    def sub_nodes(self):
+        """
+        Returns all sub_nodes of the node (or an empty list if leafs)
+        """
+        if self.is_leaf():
+            return []
+        else:
+            return self.value
 
     def decision_nodes(self):
         """
-        Returns the decision nodes of the tree
+        Returns all decision-nodes
         """
         if self.is_decision_node():
             return [self]
         elif self.is_leaf():
             return []
         else:
-            return [n for v in self._values.values() for n in v.decision_nodes() if not v.is_leaf()]
+            return [n for v in self.sub_nodes() for n in v.decision_nodes() if not v.is_leaf()]
+
+    def leafs(self):
+        """
+        Returns all leafs
+        """
+        if self.is_leaf():
+            return [self]
+        else:
+            return [n for v in self.sub_nodes() for n in v.leafs()]
 
     def node_count(self):
         """
-        Returns the amount of nodes in a tree
+        Returns how many non-leafs there are in the (sub) nodes
         """
         if self.is_leaf():
             return 0
         else:
-            return 1 + sum([n.node_count() for n in self._values.values()])
+            return 1 + sum([x.node_count() for x in self.sub_nodes()])
 
     def leaf_count(self):
         """
-        Returns the amount of leafs in the tree
+        Returns how many leafs there are in the (sub) nodes
         """
         if self.is_leaf():
             return 1
         else:
-            return sum([n.node_count() for n in self._values.values()])
+            return sum([x.leaf_count() for x in self.sub_nodes()])
 
     @staticmethod
-    def __comb(n, k):
+    def comb(n, k):
         """
         Calculates the combinations n over k
         """
-        return factorial(n) / (factorial(n - k) * factorial(k))
-
-    def __tree_cost(self):
-        """
-        Returns the pure tree cost (without exceptions)
-        """
-        if self._values is None:
-            return 1 + log2(len(self._classes))
-        else:
-            return 1 + log2(len(self._attributes)) + sum([dt.__tree_cost() for dt in self._values.values()])
-
-    def __exception_cost(self):
-        """
-        Returns the cost of purely the exceptions
-        """
-        if self._values is None:
-            # Get data length n and list of classes
-            n = len(self._data)
-            c = self._classes
-
-            # If the class is binary, calculate and return the L(n,k,b) from the paper
-            if len(c) <= 2:
-                b = floor(n / 2)
-                k = len(self._data[self._data[self._class_attr] == c[0]])
-                return log2(b + 1) + log2(self.__comb(n, k))
-
-            # Else, calculate and return the L(n; k(1), k(2), ..., k(t))
-            else:
-                # Find the most frequent class and remove from c
-                c_max = self._data[self._class_attr].mode()[0]
-                c.remove(c_max)
-
-                # Initialize cost and k with identity values
-                cost = 1
-                k = 0
-
-                # Find all n over k(i) combinations
-                for c_i in c:
-                    k_i = len(self._data[self._data[self._class_attr] == c_i])
-                    cost *= self.__comb(n, k_i)
-                    k += k_i
-
-                # Multiply the cost by the (n + k - 1) over (k - 1) combinations
-                cost *= self.__comb(n + k - 1, k - 1)
-                return log2(cost)
-        else:
-            return sum([dt.__exception_cost() for dt in self._values.values()])
+        return math.factorial(n) // (math.factorial(n - k) * math.factorial(k))
 
     def cost(self):
         """
-        Returns the total cost of the tree
-        """
-        return self.__tree_cost() + self.__exception_cost()
+        Calculates the cost of a node
 
-    def build(self):
+        PLEASE NOTE: This requires, data, classes, class_attr and remaining_classes
         """
-        Constructs and prunes the three
-        """
-        return self.construct().prune()
+        n = len(self.data)
+        if self.is_leaf():
+            # Calculate the tree cost
+            tree_cost = 1 + math.log2(len(self.classes))
 
-    def construct(self):
-        """
-        Only constructs the tree, without pruning it
-        """
-        if len(self._attributes) == 0 or len(set(self._data[self._class_attr])) <= 1:
+            # Calculate the exception cost
+            if len(self.classes) == 2:
+                b = math.floor(n / 2)
+                k = len(self.data[self.data[self.class_attr] == self.value])
+                return tree_cost + math.log2(b + 1) + math.log2(self.comb(n, k))
+            else:
+                # Not possible to have exceptions if there is only 1 data frame
+                if n == 1:
+                    return tree_cost + SINGLE_OBSERVATION_PENALTY
+
+                other_classes = self.classes.copy()
+                other_classes.remove(self.value)
+                cost = 1
+                k = 0
+                # Find all n over k(i) combinations
+                for c_i in other_classes:
+                    k_i = len(self.data[self.data[self.class_attr] == c_i])
+                    cost *= self.comb(n, k_i)
+                    k += k_i
+
+                # Multiply the cost by the (n + k - 1) over (k - 1) combinations
+                if k > 0:
+                    cost *= self.comb(n + k - 1, k - 1)
+                else:
+                    # If no exceptions, use this method
+                    cost *= n
+                return tree_cost + math.log2(cost)
+        else:
+            # Calculate tree cost
+            cost = 1 + math.log2(len(self.remaining))
+            remaining_values = len(self.remaining[self.attribute])
+            if remaining_values > 2:
+                cost += math.log2(remaining_values)
+
+            # Return tree cost plus the cost of the subtree
+            return cost + self.value[0].cost() + self.value[1].cost()
+
+    def expand(self):
+        # Do not expand if there are no remaining classes or if there is only one outcome class
+        if len(self.remaining) == 0 or len(set(self.data[self.class_attr])) <= 1:
+            # Make leaf with most prevailing class
+            self.value = self.data[self.class_attr].mode()[0]
+            self.split_value = None
+            self.attribute = None
             return self
         else:
             score = {}
             tree = {}
-            for attr, values in self._attributes.items():
-                tree[attr] = {}
-                # Set new attributes
-                new_attributes = self._attributes.copy()
-                del new_attributes[attr]
 
-                for v in values:
-                    new_data = self._data[self._data[attr] == v]
-                    if len(new_data) == 0:
-                        new_data = self._data.copy()
-                    # Create new leafs
-                    tree[attr][v] = MDLPTree(new_data, attributes=new_attributes, classes=self._classes,
-                                             class_attr=self._class_attr)
+            split_values = [(a, v) for a, l in self.remaining.items() for v in l]
+            for (a, v) in split_values:
+                # Remove from the remaining classes
+                rc = copy.deepcopy(self.remaining)
+                rc[a].remove(v)
+                if (len(rc[a])) == 1:
+                    del rc[a]
 
-                score[attr] = sum([dt.cost() for dt in tree[attr].values()])
+                if isinstance(v, numbers.Number):
+                    d0 = self.data[self.data[a] < v]
+                    d1 = self.data[self.data[a] >= v]
+                else:
+                    d0 = self.data[self.data[a] == v]
+                    d1 = self.data[self.data[a] != v]
 
-            split_attr = sorted(score.items(), key=lambda item: item[1])[0][0]
-            self._attr = split_attr
-            self._values = tree[split_attr]
-            for k, v in self._values.items():
-                self._values[k] = v.construct()
+                if len(d0) == 0 or len(d1) == 0:
+                    continue
+
+                # Construct subtree
+                n = MDLPTree(a, v, (MDLPTree(data=d0, remaining=rc, classes=self.classes, class_attr=self.class_attr),
+                                    MDLPTree(data=d1, remaining=rc, classes=self.classes, class_attr=self.class_attr)),
+                             data=self.data, remaining=self.remaining, classes=self.classes, class_attr=self.class_attr)
+
+                tree[(a, v)] = n.value
+                score[(a, v)] = n.cost()
+
+            if len(score) == 0:
+                self.value = self.data[self.class_attr].mode()[0]
+                self.split_value = None
+                self.attribute = None
+                return self
+
+            a, v = sorted(score.items(), key=lambda item: item[1])[0][0]
+            self.attribute = a
+            self.split_value = v
+            self.value = tree[(a, v)]
+
+            for x in self.value:
+                x.expand()
+
             return self
 
     def __force_prune(self):
         """
         Forces pruning of this nodes, regardless of costs or it being a decision node or not
         """
-        self._attr = self._data[self._class_attr].mode()[0]
-        self._values = None
+        self.attribute = None
+        self.split_value = None
+        self.value = self.data[self.class_attr].mode()[0]
         return self
 
     def __prune(self) -> bool:
@@ -215,8 +256,7 @@ class MDLPTree:
 
         if self.__copy__().__force_prune().cost() < self.cost():
             # Prune
-            self._attr = self._data[self._class_attr].mode()[0]
-            self._values = None
+            self.__force_prune()
             return True
 
         return False
@@ -235,27 +275,93 @@ class MDLPTree:
             c = any(r)
         return self
 
-    def printable(self, include_cost=False):
-        """
-        Returns a printable version of the tree
-        """
-        if self._values is None:
-            if include_cost:
-                return self._attr + ' (' + str(round(self.cost(), 3)) + ')\n'
-            return self._attr + '\n'
+    @staticmethod
+    def train(data, class_attr='Class'):
+        return MDLPTree(data=data, class_attr=class_attr).expand().prune()
+
+    def predict(self, series):
+        if self.is_leaf():
+            return self.value
+
+        if self.has_discrete_attribute():
+            if series[self.attribute] == self.split_value:
+                return self.value[0].predict(series)
+            else:
+                return self.value[1].predict(series)
         else:
-            _res = ''
-            if include_cost:
-                _res = '(' + str(round(self.cost(), 3)) + ')\n'
+            if series[self.attribute] < self.split_value:
+                return self.value[0].predict(series)
+            else:
+                return self.value[1].predict(series)
 
-            for _k, _v in self._values.items():
-                _res += self._attr + ' - ' + _k + '\n'
-                _lines = _v.printable(include_cost)
-                for _line in _lines.split('\n'):
-                    if len(_line) > 0:
-                        _res += '\t' + _line + '\n'
-            return _res
+    def predict_all(self, df):
+        correct = 0
+        res = []
+        for i, s in df.iterrows():
+            x = self.predict(s)
+            if x == s[self.class_attr]:
+                correct += 1
+            res.append(x)
 
+        return Series(dict([(i, self.predict(s)) for i, s in df.iterrows()]))
 
-if __name__ == '__main__':
-    print('')
+    def __copy__(self):
+        return MDLPTree(
+            copy.deepcopy(self.attribute),
+            copy.deepcopy(self.split_value),
+            copy.deepcopy(self.value),
+            copy.deepcopy(self.data),
+            copy.deepcopy(self.remaining),
+            copy.deepcopy(self.classes),
+            copy.deepcopy(self.class_attr),
+
+        )
+
+    def __getitem__(self, item):
+        """
+        Get's the sub node by the attribute value (does not work for leafs)
+        :param item: attribute value
+        :return: Corresponding sub-nodes
+        """
+        assert not self.is_leaf(), 'Cannot get item from leaf'
+
+        if self.has_discrete_attribute():
+            if item == self.split_value:
+                return self.value[0]
+            else:
+                return self.value[1]
+        else:
+            if item < self.split_value:
+                return self.value[0]
+            else:
+                return self.value[1]
+
+    def __repr__(self):
+        """
+        Returns a readable representation of the node
+        """
+        if self.is_leaf():
+            return self.value
+
+        if self.has_discrete_attribute():
+            return {
+                self.attribute + '[' + self.split_value + ']': self.value[0].__repr__(),
+                self.attribute + '[not ' + self.split_value + ']': self.value[1].__repr__(),
+            }
+        else:
+            return {
+                self.attribute + '[<' + str(self.split_value) + ']': self.value[0].__repr__(),
+                self.attribute + '[>=' + str(self.split_value) + ']': self.value[1].__repr__(),
+            }
+
+    def __str__(self):
+        """
+        Returns a readable string representation of the node
+        """
+        return str(self.__repr__())
+
+    def pprint(self):
+        """
+        Pretty-prints the decision tree
+        """
+        return pprint.pprint(self.__repr__())

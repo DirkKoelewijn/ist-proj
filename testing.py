@@ -1,7 +1,7 @@
 import math
 import pandas
 
-from MLDPTree import MLDPTree
+from MDLPTree import MDLPTree
 
 
 def k_fold_test(csv: str, k: int = 10):
@@ -22,7 +22,7 @@ def k_fold_test(csv: str, k: int = 10):
         train = pandas.concat([(df.iloc[:i * b]), (df.iloc[(i + 1) * b:])])
 
         # Train, predict and get actual
-        model = MLDPTree.train(train)
+        model = MDLPTree.train(train)
         predicted = model.predict_all(test)
         actual = test['Class']
 
@@ -86,5 +86,5 @@ if __name__ == '__main__':
 
     for csv in to_test:
         df = pandas.read_csv(csv)
-        model = MLDPTree.train(df)
+        model = MDLPTree.train(df)
         print(csv, model.leaf_count())
